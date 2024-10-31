@@ -1,31 +1,16 @@
-import configuration
 import requests
-import data
+import configuration
 
 
-def post_new_order(body):  # запрос на создание нового заказа
-    return requests.post(configuration.URL_SERVICE + configuration.ORDER_CREATE_PATH,  # подставляем полный url
-                         json=body,  # тут тело
-                         headers=data.headers)
-response = post_new_order(data.order_body)
+# Функция для создания заказа
+def post_new_order(data):
+    url = f"{configuration.URL_SERVICE}{configuration.ORDER_CREATE_PATH}"
+    response = requests.post(url, json=data)
+    return response
 
-# Вывод HTTP-статус кода ответа на запрос
-# Код состояния указывает на результат обработки запроса сервером
-track = response.json().get('track')
-print(track)
-
-def get_order(track):
-    url = f"{configuration.URL_SERVICE}{configuration.ORDER_GET_PATH}?t={track}"  # формируем полный URL
-    return requests.get(url)  # выполняем GET-запр
-
-# Вызываем функцию get_docs и сохраняем результат в переменную response
-response1 = get_order(track)
-
-# Выводим в консоль HTTP-статус код полученного ответа
-# Например, 200 означает успешный запрос, 404 - не найдено и т.д.
-print(response1.status_code)
-if response1.status_code == 200:
-    order_data = response1.json()
-    print("Данные заказа:", order_data)
-else:
-    print("Ошибка:", response1.json())
+# Функция для получения заказа по номеру трекера
+def get_order(tracker):
+    url = f"{configuration.URL_SERVICE}{configuration.ORDER_GET_PATH}"
+    params = {"t": tracker}
+    response = requests.get(url, params=params)
+    return response
