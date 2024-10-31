@@ -20,4 +20,5 @@ dist/
 
 # Контрольные точки в Jupyter notebook лучше оставить в стороне
 .ipynb_checkpoints
-.idea
+.idea/
+__pycache__/
